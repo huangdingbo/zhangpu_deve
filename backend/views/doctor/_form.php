@@ -18,6 +18,15 @@ use \common\models\Department;
 
     <?= $form->field($model, 'age')->textInput(['maxlength' => true])->label('年龄') ?>
 
+    <?= $form->field($model, 'pic')->widget('manks\FileInput', [
+            //多个图片上传需添加以下参数
+//            'clientOptions' => [
+//                'pick' => [
+//                    'multiple' => true,
+//                ],
+//            ],
+    ]);?>
+
     <?=$form->field($model,'sex')
         ->dropDownList([1=>'男',2=>'女'],['prompt'=>'请选择性别']);
     ?>
