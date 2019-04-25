@@ -1,7 +1,6 @@
 <?php
 return [
     'adminEmail' => 'admin@example.com',
-
     'doctorPositions' => [
          '1' => '医士',
         '2' => '医师',

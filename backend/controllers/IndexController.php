@@ -10,7 +10,7 @@ use yii\web\Controller;
 class IndexController extends Controller
 {
     public function actionIndex(){
-
+        $this->getView()->title = false;
         return $this->render('index');
 
     }

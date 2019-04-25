@@ -30,10 +30,8 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => '挂号信息管理', 'icon' => 'dashboard', 'url' => ['appointments/index']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => '预约挂号系统后台', 'options' => ['class' => 'header']],
+                    ['label' => '首页', 'icon' => 'file-code-o', 'url' => ['index/index']],
                     [
                         'label' => '管理员',
                         'icon' => 'share',
@@ -43,25 +41,10 @@
                             ['label' => '病人基本信息管理', 'icon' => 'file-code-o', 'url' => ['patient/index'],],
                             ['label' => '账户管理', 'icon' => 'dashboard', 'url' => ['user/index'],],
                             ['label' => '科室管理', 'icon' => 'dashboard', 'url' => ['department/index'],],
-                            [
-                                'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
                         ],
                     ],
+                    ['label' => '挂号信息管理', 'icon' => 'dashboard', 'url' => ['appointments/index']],
+                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                 ],
             ]
         ) ?>

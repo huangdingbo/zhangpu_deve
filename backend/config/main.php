@@ -10,6 +10,11 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
+
+    'name' => '预约挂号系统后台',
+    'homeUrl'=> ['index/index'],
+    'defaultRoute' => 'index/index',
+
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [

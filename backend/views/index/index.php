@@ -1,6 +1,7 @@
 <?php
-
+$this->title = '总体概况';
 ?>
+
 <div class="row">
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
@@ -64,8 +65,8 @@
     <!-- ./col -->
 </div>
 <div>
-    <h2>近30天</h2>
-    <div id="chart" style="width: 1800px;height: 300px"></div>
+    <h3>近30天日均预约人数</h3>
+    <div id="chart" style="width: 1600px;height: 300px"></div>
 </div>
 
 
