@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\lib\Chinese2PinyinTool;
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\web\ForbiddenHttpException;
 
 /**
  * This is the model class for table "doctor".
@@ -41,7 +44,7 @@ class Doctor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'name', 'sex','pic', 'age', 'position', 'duty', 'education', 'department_id', 'graduate_school', 'good_field', 'introduction', 'max_num', 'create_at', 'update_at'], 'required'],
+            [[ 'name', 'sex','pic', 'age', 'position', 'duty', 'education', 'department_id', 'graduate_school', 'good_field', 'introduction'], 'required'],
             [['user_id', 'department_id'], 'string', 'max' => 20],
             [['name'], 'string', 'max' => 30],
             [['sex', 'age', 'max_num'], 'string', 'max' => 10],
@@ -76,5 +79,63 @@ class Doctor extends \yii\db\ActiveRecord
             'update_at' => '最后更新时间',
             'pic' => '照片',
         ];
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     * 添加用户账户,返回新增主键ID
+     */
+    public function addUser($name){
+        $nameForPinyin = (new Chinese2PinyinTool())->get_pinyin($name).rand('0','10000');
+        if ($this->CheckUserIsExit($nameForPinyin)){
+            throw new ForbiddenHttpException('用户名重复，请稍后重试！！！');
+        }
+        $userModel = new User();
+        $userModel->username = $nameForPinyin;
+        $userModel->setPassword('123456');
+        $userModel->generateAuthKey();
+        $userModel->password = '*';
+        $userModel->email = $nameForPinyin.'@qq.com';
+        $userModel->status = User::STATUS_ACTIVE;
+        $userModel->type = '1';
+        $userModel->created_at = time();
+        $userModel->updated_at = time();
+        $userModel->save();
+
+        return $this->CheckUserIsExit($nameForPinyin);
+
+    }
+
+    /**
+     * @param $username
+     * @return mixed
+     * 检查用户是否已经存在
+     */
+    public function CheckUserIsExit($username){
+
+        $user = User::findOne(['username' => $username]);
+
+        return ArrayHelper::getValue($user,'id');
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     * 数据保存前的操作
+     */
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)){
+            if($insert){
+                $this->create_at = date('Y-m-d H:i:s',time());
+                $this->update_at = date('Y-m-d H:i:s',time());
+            }else{
+                $this->update_at = date('Y-m-d H:i:s',time());
+            }
+            return true;
+        }else{
+            return false;
+        }
     }
 }

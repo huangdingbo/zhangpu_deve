@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use common\models\Doctor;
+use common\models\Patient;
 use Yii;
 use common\models\Appointments;
 use common\models\AppointmentsSearch;
@@ -58,64 +60,28 @@ class AppointmentsController extends Controller
     }
 
     /**
-     * Creates a new Appointments model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     * 病人基本信息
      */
-    public function actionCreate()
-    {
-        $model = new Appointments();
+    public function actionPatient($id){
+        $appointModel = $this->findModel($id);
+        $patientId = $appointModel->user_id_normal;
+        $model = Patient::findOne(['id' => $patientId]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->renderAjax('patient',['model' => $model]);
     }
 
-    /**
-     * Updates an existing Appointments model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+    public function actionDoctor($id){
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        $appointModel = $this->findModel($id);
+        $doctorId = $appointModel->doctor_id;
+        $model = Doctor::findOne(['id' => $doctorId]);
+        return $this->renderAjax('doctor',['model' => $model]);
     }
 
-    /**
-     * Deletes an existing Appointments model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Appointments model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Appointments the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Appointments::findOne($id)) !== null) {

@@ -1,6 +1,8 @@
 <?php
 
+use common\models\Patient;
 use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -22,10 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             [
-                    'attribute' => 'sex',
-                    'value' => function($model){
-                        return $model->sex == 1 ? '男' : '女';
-                    }
+                'attribute' => 'sex',
+                'value' => function($model){
+                    return $model->sex == 1 ? '男' : '女';
+                }
             ],
             'sex',
             'age',

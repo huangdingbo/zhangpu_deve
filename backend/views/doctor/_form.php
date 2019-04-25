@@ -37,12 +37,12 @@ use \common\models\Department;
     ]);?>
 
     <?=$form->field($model, 'duty')->widget(Select2::classname(), [
-        'data' => Yii::$app->params['doctorPositions'],
+        'data' => Yii::$app->params['doctorDuty'],
         'options' => ['placeholder' => '请选择 ...'],
     ]);?>
 
     <?=$form->field($model, 'education')->widget(Select2::classname(), [
-        'data' => Yii::$app->params['doctorPositions'],
+        'data' => Yii::$app->params['doctorEducation'],
         'options' => ['placeholder' => '请选择 ...'],
     ]);?>
 

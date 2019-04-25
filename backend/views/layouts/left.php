@@ -32,15 +32,17 @@
                 'items' => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
+                    ['label' => '挂号信息管理', 'icon' => 'dashboard', 'url' => ['appointments/index']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
-                        'label' => 'Some tools',
+                        'label' => '管理员',
                         'icon' => 'share',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                            ['label' => '医师基本信息管理', 'icon' => 'file-code-o', 'url' => ['doctor/index'],],
+                            ['label' => '病人基本信息管理', 'icon' => 'file-code-o', 'url' => ['patient/index'],],
+                            ['label' => '账户管理', 'icon' => 'dashboard', 'url' => ['user/index'],],
+                            ['label' => '科室管理', 'icon' => 'dashboard', 'url' => ['department/index'],],
                             [
                                 'label' => 'Level One',
                                 'icon' => 'circle-o',

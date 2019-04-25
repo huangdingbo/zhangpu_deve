@@ -18,7 +18,7 @@ class AppointmentsSearch extends Appointments
     {
         return [
             [['id'], 'integer'],
-            [['user_id_normal', 'doctor_id', 'appointment_time', 'submit_time', 'line_num'], 'safe'],
+            [['user_id_normal', 'doctor_id', 'appointment_time', 'submit_time', 'line_num','email','username'], 'safe'],
         ];
     }
 
@@ -66,6 +66,23 @@ class AppointmentsSearch extends Appointments
             ->andFilterWhere(['like', 'appointment_time', $this->appointment_time])
             ->andFilterWhere(['like', 'submit_time', $this->submit_time])
             ->andFilterWhere(['like', 'line_num', $this->line_num]);
+
+
+        $query->leftJoin('user','user.id = appointments.user_id_normal')
+                ->andFilterWhere(['like', 'user.username', $this->username])
+                ->andFilterWhere(['like', 'user.email', $this->email]);
+
+        $dataProvider->sort->attributes['username'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['email'] = [
+            'asc' => ['user.email' => SORT_ASC],
+            'desc' => ['user.email' => SORT_DESC],
+        ];
+
+
 
         return $dataProvider;
     }

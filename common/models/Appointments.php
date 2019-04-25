@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "appointments".
  *
  * @property int $id
- * @property string $user_id_normal user表普通用户id
+ * @property string $user_id_normal user 表id
  * @property string $doctor_id 医生id
  * @property string $appointment_time 预约时间
  * @property string $submit_time 提交时间
@@ -19,6 +19,8 @@ class Appointments extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public $username;
+    public $email;
     public static function tableName()
     {
         return 'appointments';
@@ -32,6 +34,7 @@ class Appointments extends \yii\db\ActiveRecord
         return [
             [['user_id_normal', 'doctor_id', 'appointment_time', 'submit_time', 'line_num'], 'required'],
             [['user_id_normal', 'doctor_id', 'appointment_time', 'submit_time', 'line_num'], 'string', 'max' => 50],
+            [['username,email'],'safe'],
         ];
     }
 
@@ -42,11 +45,18 @@ class Appointments extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id_normal' => 'User Id Normal',
+            'user_id_normal' => 'Patient ID',
             'doctor_id' => 'Doctor ID',
-            'appointment_time' => 'Appointment Time',
-            'submit_time' => 'Submit Time',
-            'line_num' => 'Line Num',
+            'appointment_time' => '预约时间',
+            'submit_time' => '提交时间',
+            'line_num' => '当前排队号',
+            'username' => '用户名',
+            'email' => '邮箱',
         ];
     }
+
+    public function getUserAccount(){
+        return $this->hasOne(User::className(),['id' => 'user_id_normal']);
+    }
+
 }

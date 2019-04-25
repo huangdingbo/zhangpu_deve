@@ -51,15 +51,15 @@ class Patient extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'name' => 'Name',
-            'sex' => 'Sex',
-            'age' => 'Age',
-            'tel' => 'Tel',
-            'address' => 'Address',
-            'medical_records' => 'Medical Records',
-            'drug_allergy' => 'Drug Allergy',
-            'create_at' => 'Create At',
-            'update_at' => 'Update At',
+            'name' => '姓名',
+            'sex' => '性别',
+            'age' => '年龄',
+            'tel' => '电话',
+            'address' => '住址',
+            'medical_records' => '病历',
+            'drug_allergy' => '药物过敏史',
+            'create_at' => '创建时间',
+            'update_at' => '最后修改时间',
         ];
     }
 }
