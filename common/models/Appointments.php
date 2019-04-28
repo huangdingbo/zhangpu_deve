@@ -46,7 +46,7 @@ class Appointments extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id_normal' => 'Patient ID',
-            'doctor_id' => 'Doctor ID',
+            'doctor_id' => '预约医生',
             'appointment_time' => '预约时间',
             'submit_time' => '提交时间',
             'line_num' => '当前排队号',
@@ -57,6 +57,18 @@ class Appointments extends \yii\db\ActiveRecord
 
     public function getUserAccount(){
         return $this->hasOne(User::className(),['id' => 'user_id_normal']);
+    }
+
+    public function addInfo(){
+        $this->user_id_normal = (string)Yii::$app->user->id;
+        $this->submit_time = date('Y-m-d H:i:s',time());
+        //排队号
+        $totalPerson = self::find()->where(['doctor_id' => $this->doctor_id])->count();
+        $this->line_num = (string)($totalPerson + 1);
+    }
+
+    public function getDoctor(){
+        return $this->hasOne(Doctor::className(),['id' => 'doctor_id']);
     }
 
 }

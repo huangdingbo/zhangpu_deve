@@ -1,6 +1,8 @@
 <?php
 
-?>
+use kartik\date\DatePicker;
+use yii\bootstrap\Html;
+use yii\widgets\ActiveForm; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,12 +48,12 @@
                     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                         <nav>
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
+                                <li><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
                                 <li><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">关于我们</a></li>
                                 <li><a href="<?=\yii\helpers\Url::to(['/services/index'])?>">我们的服务</a></li>
                                 <li><a href="<?=\yii\helpers\Url::to(['/gallery/index'])?>">画廊</a></li>
 
-                                <li><a href="<?=\yii\helpers\Url::to(['/contact/index'])?>">联系</a></li>
+                                <li class="active"><a href="<?=\yii\helpers\Url::to(['/contact/index'])?>">联系</a></li>
 
                                 <li><a href="<?=\yii\helpers\Url::to(['/site/login'])?>">登录</a></li>
 
@@ -70,63 +72,82 @@
 <div class="contact-page-w3ls inner-padding">
     <div class="container">
         <div class="w3-heading-all">
-            <h3>Mail Us</h3>
+            <h3>在线预约</h3>
         </div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3539.812628729253!2d153.014155!3d-27.4750921!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b915a0835840a2f%3A0xdd5e3f5c208dc0e1!2sMelbourne+St%2C+South+Brisbane+QLD+4101%2C+Australia!5e0!3m2!1sen!2sin!4v1492257477691"></iframe>
         <div class="contact-info-w3ls">
             <div class="contact-left-w3layouts">
-                <div class="contact-w3-agileits">
-                    <img src="images/c1.jpg" alt="img">
+<!--                <div class="contact-w3-agileits">-->
+<!--                    <img src="images/c1.jpg" alt="img">-->
+<!--                    <div class="right-contact-w3ls">-->
+<!--                        <h6>Daniel</h6>-->
+<!--                        <p class="work-w3">Director</p>-->
+<!--                        <div class="span-sub-w3ls">-->
+<!--                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><p class="number-w3">+01 243 792 96</p>-->
+<!--                        </div>-->
+<!--                        <div class="span-sub-w3ls">-->
+<!--                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:info@example.com">example@mail.com</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="clearfix"> </div>-->
+<!--                </div>-->
+<!--                <div class="contact-w3-agileits">-->
+<!--                    <img src="images/c2.jpg" alt="img">-->
+<!--                    <div class="right-contact-w3ls">-->
+<!--                        <h6>Smith Carl</h6>-->
+<!--                        <p class="work-w3">Specialist</p>-->
+<!--                        <div class="span-sub-w3ls">-->
+<!--                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><p class="number-w3">+01 543 338 96</p>-->
+<!--                        </div>-->
+<!--                        <div class="span-sub-w3ls">-->
+<!--                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:info@example.com">example@mail.com</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="clearfix"> </div>-->
+<!--                </div>-->
+                <div class="contact-w3-agileits" style="width:500px ">
+                    <img style="height: 200px;width: 200px" src="<?=Yii::$app->params['imgDomain'].$item->pic?>" alt="img">
                     <div class="right-contact-w3ls">
-                        <h6>Daniel</h6>
-                        <p class="work-w3">Director</p>
-                        <div class="span-sub-w3ls">
-                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><p class="number-w3">+01 243 792 96</p>
+                        <div><h6>姓名：<?=$item->name?></h6></div>
+                        <div style="margin-top:12px "><p class="work-w3">科室：<?=(\common\models\Department::findOne(['id' => $item->department_id]))->name?></p></div>
+                        <div class="span-sub-w3ls" style="margin-top:12px ">
+                            <p class="number-w3">职称：<?=$item->position?></p>
                         </div>
-                        <div class="span-sub-w3ls">
-                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:info@example.com">example@mail.com</a>
-                        </div>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="contact-w3-agileits">
-                    <img src="images/c2.jpg" alt="img">
-                    <div class="right-contact-w3ls">
-                        <h6>Smith Carl</h6>
-                        <p class="work-w3">Specialist</p>
-                        <div class="span-sub-w3ls">
-                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><p class="number-w3">+01 543 338 96</p>
-                        </div>
-                        <div class="span-sub-w3ls">
-                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:info@example.com">example@mail.com</a>
-                        </div>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="contact-w3-agileits">
-                    <img src="images/c3.jpg" alt="img">
-                    <div class="right-contact-w3ls">
-                        <h6>James Mac</h6>
-                        <p class="work-w3">Doctor</p>
-                        <div class="span-sub-w3ls">
-                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><p class="number-w3">+01 543 338 96</p>
-                        </div>
-                        <div class="span-sub-w3ls">
-                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:info@example.com">example@mail.com</a>
+                        <div class="span-sub-w3ls" style="margin-top:12px ">
+                            <p>学历：<?=$item->education?></p>
                         </div>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
             </div>
-            <div class="contact-right-w3layouts">
-                <h5 class="title-w3">We Would Love To Hear From You!</h5>
-                <p class="head-w3-agileits">If you have any questions, please call us or fill in the form below and we will get back to you very soon.</p>
-                <form action="#" method="post">
-                    <input type="text" name="your name" placeholder="YOUR NAME" required="">
-                    <input type="email" name="your email" placeholder="YOUR EMAIL" required="">
-                    <textarea name="your message" placeholder="YOUR MESSAGE" required=""></textarea>
-                    <input type="submit" value="Send Message">
-                </form>
+            <div style="float: left;width: 600px">
+                <h5 class="title-w3">请在下方填写预约信息！</h5>
+                <br>
+                <?php
+                    $list = [];
+                    if (Yii::$app->request->get('id') == 0){
+                        $list = \common\models\Doctor::find()->select('name,id')->indexBy('id')->asArray()->column();
+                    }else{
+                        $list = \common\models\Doctor::find()->select('name,id')->where(['id' => $item['id']])->indexBy('id')->asArray()->column();
+                    }
+                ?>
+                <?php $form = ActiveForm::begin()?>
+                <?=$form->field($appointmentsModel,'doctor_id')->dropDownList($list)->label('医生姓名')?>
+                <?= $form->field($appointmentsModel, 'appointment_time')->widget(DatePicker::classname(), [
+                    'options' => ['placeholder' => ''],
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'todayHighlight' => true,
+                        'format' => 'yyyy-mm-dd ',
+                        'startDate' =>date('Y-m-d'), //设置今天之前的日期不能选择
+                    ]
+                ]); ?>
+                <div class="clearfix"> </div>
+
+                <div class="date_btn">
+                    <?= Html::submitButton('提交预约', ['class' => 'btn btn-primary btn-lg btn-block']) ?>
+                </div>
+                <?php ActiveForm::end()?>
+
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -136,15 +157,25 @@
 <!-- //Mail Us inner -->
 
 <!-- footer -->
-<div class="footer">
+<div class="footer" style="height: 100%">
     <div class="container">
         <div class="footer_agile_inner_info_w3l">
             <div class="col-md-4 footer-left">
-                <h2><a href="index.html">MediBulk </a></h2>
-                <p>Lorem ipsum quia dolor
-                    sit amet, consectetur, adipisci velit, sed quia non
-                    numquam eius modi tempora.</p>
+                <h2><a href="index.html">合作伙伴 </a></h2>
+                <p></p>
                 <ul class="social-nav model-3d-0 footer-social w3_agile_social two">
+                    <!--                    <li><a href="https://github.com" class="github">-->
+                    <!--                            <div class="front"><i class="fa fa-github" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-github" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="https://linux.cn/" class="linux">-->
+                    <!--                            <div class="front"><i class="fa fa-linux" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-linux" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="https://www.w3.org/html/" class="html5">-->
+                    <!--                            <div class="front"><i class="fa fa-html5" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-html5" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="www.google.com" class="google">-->
+                    <!--                            <div class="front"><i class="fa fa-google-plus" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-google-plus" aria-hidden="true"></i></div></a></li>-->
                     <li><a href="#" class="facebook">
                             <div class="front"><i class="fa fa-facebook" aria-hidden="true"></i></div>
                             <div class="back"><i class="fa fa-facebook" aria-hidden="true"></i></div></a></li>
@@ -162,28 +193,29 @@
             <div class="col-md-4 footer-right">
                 <div class="sign-grds">
                     <div class="sign-gd">
-                        <h4>Information </h4>
+                        <h4>信息 </h4>
                         <ul>
-                            <li><a href="index.html" class="active">Home</a></li>
-                            <li><a href="about.html" >About</a></li>
-                            <li><a href="services.html"> Services</a></li>
-                            <li><a href="gallery.html">Portfolio</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li class="active"><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">关于我们</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/services/index'])?>">我们的服务</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/gallery/index'])?>">画廊</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/contact/index'])?>">联系</a></li>
 
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 sign-gd-two">
-                <h4>Address</h4>
+                <h4>联系方式</h4>
+
                 <div class="w3-address">
                     <div class="w3-address-grid">
                         <div class="w3-address-left">
                             <i class="fa fa-phone" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>Phone Number</h6>
-                            <p>+1 234 567 8901</p>
+                            <h6>联系电话</h6>
+                            <p>028 2345678901</p>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
@@ -192,7 +224,7 @@
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>Email Address</h6>
+                            <h6>邮件地址</h6>
                             <p>Email :<a href="mailto:example@email.com"> mail@example.com</a></p>
                         </div>
                         <div class="clearfix"> </div>
@@ -202,8 +234,8 @@
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>Location</h6>
-                            <p>Broome St, NY 10002,California, USA.
+                            <h6>地址</h6>
+                            <p>成都市都江堰市成都东软学院
 
                             </p>
                         </div>
@@ -216,10 +248,11 @@
 
             <div class="clearfix"></div>
 
-            <p class="copy-right">Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+            <p class="copy-right">Copyright &copy; 2019.ZhangPu All rights reserved.</p>
         </div>
     </div>
 </div>
+
 <!-- //footer -->
 
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>

@@ -121,6 +121,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     <?php
+
     // 更新操作
     Modal::begin([
         'id' => 'update-modal',

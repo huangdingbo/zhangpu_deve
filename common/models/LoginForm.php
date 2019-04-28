@@ -55,11 +55,14 @@ class LoginForm extends Model
      */
     public function login()
     {
+        $baseUrl = Yii::$app->request->getBaseUrl();
+        $urlArr = explode('/',trim($baseUrl));
+        $platform = $urlArr[2];
 
         $userModel = $this->getUser();
 
         if ($userModel){
-            if ($userModel->type == 2){
+            if ($userModel->type == 2 && $platform == 'backend'){ //普通用户访问后台，拦截
                 return false;
             }
         }

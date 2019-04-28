@@ -4,13 +4,14 @@
 namespace frontend\controllers;
 
 
+use common\models\Appointments;
 use yii\web\Controller;
 
 class TestController extends Controller
 {
     public function actionIndex(){
-        $this->layout = 'myLayout';
+        $model = new Appointments();
 
-        return $this->render('index');
+        return $this->render('index',['model' => $model]);
     }
 }

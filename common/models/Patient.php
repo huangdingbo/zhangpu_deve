@@ -35,11 +35,12 @@ class Patient extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'name', 'sex', 'age', 'tel', 'address', 'medical_records', 'drug_allergy', 'create_at', 'update_at'], 'required'],
+            [['user_id', 'name', 'sex', 'age', 'tel', 'address', 'create_at', 'update_at'], 'required'],
             [['user_id', 'name', 'tel', 'create_at', 'update_at'], 'string', 'max' => 50],
             [['sex', 'age'], 'string', 'max' => 10],
             [['address'], 'string', 'max' => 100],
             [['medical_records', 'drug_allergy'], 'string', 'max' => 500],
+            [['medical_records', 'drug_allergy'],'safe'],
         ];
     }
 
@@ -62,4 +63,20 @@ class Patient extends \yii\db\ActiveRecord
             'update_at' => '最后修改时间',
         ];
     }
+
+//    //重写beforeSave  在保存之前
+//    public function beforeSave($insert){
+//
+//        if(parent::beforeSave($insert)){
+//            if($insert){
+//                $this->update_at = date('Y-m-d H:i:s',time());
+//                $this->create_at = date('Y-m-d H:i:s',time());
+//            }else{
+//                $this->update_at = date('Y-m-d H:i:s',time());
+//            }
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
 }

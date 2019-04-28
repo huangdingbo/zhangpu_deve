@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\ResetpwdForm;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -206,6 +207,40 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('success', 'New password saved.');
 
             return $this->goHome();
+        }
+
+        return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionResetpwd()
+    {
+        $model = new ResetpwdForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+           $postData = Yii::$app->request->post();
+
+            $userinfo = (\common\models\User::findOne(['username' => $postData['ResetpwdForm']['username']]));
+
+            if (!$userinfo){
+                $model->addError('username','该用户不存在');
+                return $this->render('resetPassword', [
+                    'model' => $model,
+                ]);
+            }
+
+            if ($userinfo->type == 1){
+                $model->addError('username','该用户不存在');
+                return $this->render('resetPassword', [
+                    'model' => $model,
+                ]);
+            }
+
+            $id = $userinfo->id;
+            if($adminuser = $model->resetpassword($id)){
+                return $this->redirect(['login']);
+            }
         }
 
         return $this->render('resetPassword', [

@@ -1,5 +1,11 @@
 <?php
 
+use common\models\Doctor;
+use kartik\date\DatePicker;
+use kartik\select2\Select2;
+use yii\bootstrap\Html;
+use yii\widgets\ActiveForm;
+\frontend\assets\AppAsset::register($this)
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +28,17 @@
     <link href="css/wickedpicker.css" rel="stylesheet" type='text/css' media="all" />  <!-- time-picker-CSS -->
     <link href="http://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <style>
+        #zhuxiao{
+            background: none;
+            border: none;
+            line-height: 1em;
+            padding:10px 10px
+        }
+        li #zhuxiao:hover{
+            background: #3eb8d7bf;
+        }
+    </style>
     <!--//fonts-->
 
 
@@ -49,15 +66,28 @@
                         <nav>
                             <ul class="nav navbar-nav">
                                 <li class="active"><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
-                                <li><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">关于我们</a></li>
-                                <li><a href="<?=\yii\helpers\Url::to(['/services/index'])?>">我们的服务</a></li>
+                                <li><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">预约服务</a></li>
                                 <li><a href="<?=\yii\helpers\Url::to(['/gallery/index'])?>">画廊</a></li>
 
-                                <li><a href="<?=\yii\helpers\Url::to(['/contact/index'])?>">联系</a></li>
+                                <li>
+                                    <?php if (Yii::$app->user->isGuest) { ?>
+                                        <a href="<?=\yii\helpers\Url::to(['/site/login'])?>">登录</a>
+                                   <?php } else { ?>
 
-                                <li><a href="<?=\yii\helpers\Url::to(['/site/login'])?>">登录</a></li>
+                                        <?php echo
+                                        '<li style="color:#fff;font-weight:400;border:1.5px solid #3eb8d7">'
+                                        . \yii\helpers\Html::beginForm(['/site/logout'], 'post')
+                                        . Html::submitButton(
+                                            '注销 (' . Yii::$app->user->identity->username . ')',
+                                            ['id' => 'zhuxiao']
+                                        )
+                                        . Html::endForm()
+                                        . '</li>';
+                                        ?>
+                                   <?php } ?>
+                                </li>
 
-                                <li><a href="<?=\yii\helpers\Url::to(['/contact/index'])?>">我的预约</a></li>
+                                <li><a href="<?=\yii\helpers\Url::to(['/appointments/index'])?>">我的预约</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -84,7 +114,7 @@
                         <div class="carousel-caption">
                             <h3>我们提供最好的医疗服务</h3>
                             <div class="contrast">
-                                <p> Vestibulum ante ipsum primis in faucibus orci luctus et ultrices.</p>
+                                <p> We provide the best medical care.</p>
                             </div>
                         </div>
                     </div>
@@ -96,7 +126,7 @@
                         <div class="carousel-caption">
                             <h3>我们提供最好的牙科服务</h3>
                             <div class="contrast">
-                                <p> Vestibulum ante ipsum primis in faucibus orci luctus et ultrices.</p>
+                                <p> We offer the best dental services.</p>
                             </div>
                         </div>
                     </div>
@@ -108,7 +138,7 @@
                         <div class="carousel-caption">
                             <h3>我们提供最好的婴儿服务 </h3>
                             <div class="contrast">
-                                <p> Vestibulum ante ipsum primis in faucibus orci luctus et ultrices.</p>
+                                <p> We offer the best baby care.</p>
                             </div>
                         </div>
                     </div>
@@ -121,7 +151,7 @@
                             <h3>我们提供顶尖的医生</h3>
 
                             <div class="contrast">
-                                <p> Vestibulum ante ipsum primis in faucibus orci luctus et ultrices.</p>
+                                <p> We provide top doctors.</p>
                             </div>
                         </div>
                     </div>
@@ -135,7 +165,7 @@
                             <h3>食物是我们的共同点 </h3>
 
                             <div class="contrast">
-                                <p> Vestibulum ante ipsum primis in faucibus orci luctus et ultrices.</p>
+                                <p> Food is what we have in common .</p>
                             </div>
                         </div>
                     </div>
@@ -144,53 +174,50 @@
         </div>
         <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-            <span class="sr-only">以前的</span>
+            <span class="sr-only">last</span>
         </a>
         <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
             <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-            <span class="sr-only">下一个</span>
+            <span class="sr-only">next</span>
         </a>
     </div>
     <div class="agileits_reservation">
-        <form action="#" method="post">
+        <?php $form = ActiveForm::begin(); ?>
             <div class="cuisine">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                <input type="text" name="Location" placeholder="Enter name" required="">
+                <input type="text" placeholder="您的姓名" required="">
             </div>
-            <div class="phone_email">
-                <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-                <input type="text" name="Phone" placeholder="Phone" required="">
-            </div>
-            <div class="phone_email1">
-                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                <input type="email" name="Email" placeholder="Email" required="">
-            </div>
+        <br>
+
+        <div class="cuisine">
+<!--            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>-->
+            <?=$form->field($model, 'doctor_id')->widget(Select2::classname(), [
+                'data' => Doctor::find()->select('name,id')->indexBy('id')->column(),
+                'options' => ['placeholder' => '请选择预约医生'],
+            ])->label(false);?>
+        </div>
+<!--            <div class="phone_email1">-->
+<!--                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>-->
+<!--                <input type="email" name="Email" placeholder="Email" required="">-->
+<!--            </div>-->
+        <?= $form->field($model, 'appointment_time')->widget(DatePicker::classname(), [
+            'options' => ['placeholder' => ''],
+            'pluginOptions' => [
+                'autoclose' => true,
+                'todayHighlight' => true,
+                'format' => 'yyyy-mm-dd ',
+                'startDate' =>date('Y-m-d'), //设置今天之前的日期不能选择
+            ]
+        ])->label(false); ?>
+
             <div class="clearfix"> </div>
-            <div class="agileits_reservation_grid">
-                <div  class="span1_of_1 book_date">
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                    <input class="date" id="datepicker" name="Text" placeholder="Select Date"  type="text" required="">
+
+                <div class="date_btn">
+                    <?= Html::submitButton('提交预约', ['class' => 'btn btn-primary btn-lg btn-block']) ?>
                 </div>
-                <div class="span1_of_1 section_room">
-                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                    <input type="text" name="Time" class="timepicker" value=" Time">
-                </div>
-                <div class="span1_of_1 section_room">
-                    <!-- start_section_room -->
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <select id="country1" class="frm-field sect" required>
-                        <option value="">People</option>
-                        <option value="1">1 People</option>
-                        <option value="2">2 People</option>
-                        <option value="3">More</option>
-                    </select>
-                </div>
-                <div class="clearfix"></div>
             </div>
-            <div class="date_btn">
-                <input type="submit" value="Book An Appointment" />
-            </div>
-        </form>
+
+        <?php ActiveForm::end(); ?>
     </div>
 </div>
 <!-- //slider -->
@@ -252,14 +279,14 @@
 <div class="services" id="services">
     <div class="container">
         <div class="w3-heading-all services-head">
-            <h3>Services</h3>
+            <h3>服务</h3>
         </div>
 
         <div class="w3-services-grids">
             <div class="col-md-4 w3-services-grids1">
                 <div class="w3-services-grid1">
                     <i class="fa fa-user-md" aria-hidden="true"></i>
-                    <h3> Special Team</h3>
+                    <h3> 牙科诊所</h3>
                     <div class="w3-services-grid1-left">
                         <h4>10 </h4>
                         <p>ipsum</p>
@@ -274,7 +301,7 @@
             <div class="col-md-4 w3-services-grids1 ">
                 <div class=" w3-services-grid2">
                     <i class="fa fa-laptop" aria-hidden="true"></i>
-                    <h3>Qualified Doctors</h3>
+                    <h3>外科诊所</h3>
                     <div class="w3-services-grid1-left">
                         <h4>20 </h4>
                         <p>basus</p>
@@ -289,7 +316,7 @@
             <div class="col-md-4 w3-services-grids1">
                 <div class=" w3-services-grid3">
                     <i class="fa fa-hospital-o" aria-hidden="true"></i>
-                    <h3>Special sergery</h3>
+                    <h3>内科诊所</h3>
                     <div class="w3-services-grid1-left">
                         <h4>15 </h4>
                         <p>mpsum</p>
@@ -308,7 +335,7 @@
                 <div class="col-md-4 w3-services-grids1">
                     <div class="w3-services-grid4">
                         <i class="fa fa-heartbeat" aria-hidden="true"></i>
-                        <h3>Cardiac Clinic</h3>
+                        <h3>心脏诊所</h3>
                         <div class="w3-services-grid1-left">
                             <h4>25 </h4>
                             <p>ipsum</p>
@@ -323,7 +350,7 @@
                 <div class="col-md-4 w3-services-grids1">
                     <div class=" w3-services-grid5">
                         <i class="fa fa-flask" aria-hidden="true"></i>
-                        <h3>Pediatric Clinic</h3>
+                        <h3>儿科诊所</h3>
                         <div class="w3-services-grid1-left">
                             <h4>35</h4>
                             <p>ipsum</p>
@@ -338,7 +365,7 @@
                 <div class="col-md-4 w3-services-grids1">
                     <div class=" w3-services-grid6">
                         <i class="fa fa-ambulance" aria-hidden="true"></i>
-                        <h3>Emergency Help</h3>
+                        <h3>紧急援助</h3>
                         <div class="w3-services-grid1-left">
                             <h4>40 </h4>
                             <p>ipsum</p>
@@ -361,14 +388,13 @@
 <div class="testimonials" id="testimonials">
     <div class="container">
         <div class="w3-heading-all">
-            <h3>Testimonials</h3>
+            <h3>我们的奖状</h3>
         </div>
         <div class="w3ls_testimonials_grids">
             <section class="center slider">
                 <div class="agileits_testimonial_grid">
                     <div class="w3l_testimonial_grid">
-                        <p>In eu auctor felis, id eleifend dolor. Integer bibendum dictum erat,
-                            non laoreet dolor.</p>
+                        <p></p>
                         <h4>Rosy Crisp</h4>
                         <h5>Student</h5>
                         <div class="w3l_testimonial_grid_pos">
@@ -404,15 +430,25 @@
 </div>
 <!-- //testimonials -->
 <!-- footer -->
-<div class="footer">
+<div class="footer" style="height: 100%">
     <div class="container">
         <div class="footer_agile_inner_info_w3l">
             <div class="col-md-4 footer-left">
-                <h2><a href="index.html">MediBulk </a></h2>
-                <p>Lorem ipsum quia dolor
-                    sit amet, consectetur, adipisci velit, sed quia non
-                    numquam eius modi tempora.</p>
+                <h2><a href="index.html">合作伙伴 </a></h2>
+                <p></p>
                 <ul class="social-nav model-3d-0 footer-social w3_agile_social two">
+<!--                    <li><a href="https://github.com" class="github">-->
+<!--                            <div class="front"><i class="fa fa-github" aria-hidden="true"></i></div>-->
+<!--                            <div class="back"><i class="fa fa-github" aria-hidden="true"></i></div></a></li>-->
+<!--                    <li><a href="https://linux.cn/" class="linux">-->
+<!--                            <div class="front"><i class="fa fa-linux" aria-hidden="true"></i></div>-->
+<!--                            <div class="back"><i class="fa fa-linux" aria-hidden="true"></i></div></a></li>-->
+<!--                    <li><a href="https://www.w3.org/html/" class="html5">-->
+<!--                            <div class="front"><i class="fa fa-html5" aria-hidden="true"></i></div>-->
+<!--                            <div class="back"><i class="fa fa-html5" aria-hidden="true"></i></div></a></li>-->
+<!--                    <li><a href="www.google.com" class="google">-->
+<!--                            <div class="front"><i class="fa fa-google-plus" aria-hidden="true"></i></div>-->
+<!--                            <div class="back"><i class="fa fa-google-plus" aria-hidden="true"></i></div></a></li>-->
                     <li><a href="#" class="facebook">
                             <div class="front"><i class="fa fa-facebook" aria-hidden="true"></i></div>
                             <div class="back"><i class="fa fa-facebook" aria-hidden="true"></i></div></a></li>
@@ -430,28 +466,29 @@
             <div class="col-md-4 footer-right">
                 <div class="sign-grds">
                     <div class="sign-gd">
-                        <h4>Information </h4>
+                        <h4>信息 </h4>
                         <ul>
-                            <li><a href="index.html" class="active">Home</a></li>
-                            <li><a href="about.html" >About</a></li>
-                            <li><a href="services.html"> Services</a></li>
-                            <li><a href="gallery.html">Portfolio</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li class="active"><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">关于我们</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/services/index'])?>">我们的服务</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/gallery/index'])?>">画廊</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/contact/index'])?>">联系</a></li>
 
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 sign-gd-two">
-                <h4>地址</h4>
+                <h4>联系方式</h4>
+
                 <div class="w3-address">
                     <div class="w3-address-grid">
                         <div class="w3-address-left">
                             <i class="fa fa-phone" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>电话号码</h6>
-                            <p>+1 234 567 8901</p>
+                            <h6>联系电话</h6>
+                            <p>028 2345678901</p>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
@@ -460,7 +497,7 @@
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>电子邮件地址</h6>
+                            <h6>邮件地址</h6>
                             <p>Email :<a href="mailto:example@email.com"> mail@example.com</a></p>
                         </div>
                         <div class="clearfix"> </div>
@@ -470,8 +507,8 @@
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>位置</h6>
-                            <p>Broome St, NY 10002,California, USA.
+                            <h6>地址</h6>
+                            <p>成都市都江堰市成都东软学院
 
                             </p>
                         </div>
@@ -484,10 +521,11 @@
 
             <div class="clearfix"></div>
 
-            <p class="copy-right">Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+            <p class="copy-right">Copyright &copy; 2019.ZhangPu All rights reserved.</p>
         </div>
     </div>
 </div>
+
 <!-- //footer -->
 <!-- js -->
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>

@@ -138,4 +138,20 @@ class Doctor extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    public function getDoctorInfo(){
+        $list = self::find()->asArray()->all();
+        $departmentMap = Department::find()->select('name,id')->indexBy('id')->column();
+        foreach ($list as &$item){
+            $item['department_id'] = isset($departmentMap[$item['department_id']]) ? $departmentMap[$item['department_id']] : '';
+        }
+        $res = ArrayHelper::index($list,null,'department_id');
+        return $res;
+    }
+
+    public function getDoctorDetail($id){
+        $info = self::findOne(['id' => $id]);
+
+        return $info;
+    }
 }

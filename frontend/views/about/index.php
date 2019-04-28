@@ -22,6 +22,7 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
     <!--//fonts-->
 
+
 </head>
 
 <body>
@@ -47,8 +48,8 @@
                     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                         <nav>
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
-                                <li><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">关于我们</a></li>
+                                <li><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
+                                <li class="active"><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">关于我们</a></li>
                                 <li><a href="<?=\yii\helpers\Url::to(['/services/index'])?>">我们的服务</a></li>
                                 <li><a href="<?=\yii\helpers\Url::to(['/gallery/index'])?>">画廊</a></li>
 
@@ -102,94 +103,52 @@
 <!--/team-->
 <div class="team" id="team">
     <div class="w3-heading-all">
-        <h3>Our Doctors</h3>
+        <h3>我们的医生</h3>
     </div>
-    <div class="w3-agile-team-grids">
-        <div class="w3-agile-team-grid1">
-            <div class="col-md-4 w3-agile-team-img1">
-                <div class="w3-agile-team-img-head">
-
-                    <h3>Joe Root</h3>
-                    <div class="team-social">
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-4 w3-agile-team-img1 w3-agile-team-img-1">
-                <div class="w3-agile-team-img-head">
-                    <h3>perry jest</h3>
-                    <div class="team-social">
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-4 w3-agile-team-img1 w3-agile-team-img-2">
-                <div class="w3-agile-team-img-head">
-                    <h3>Shakeera ls</h3>
-                    <div class="team-social">
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                    </div>
-                </div>
-
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="w3-agile-team-grid2">
-            <div class="col-md-4 w3-agile-team-img1 w3-agile-team-img-3">
-                <div class="w3-agile-team-img-head">
-                    <h3>sharapova</h3>
-                    <div class="team-social">
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-4 w3-agile-team-img1 w3-agile-team-img-4">
-                <div class="w3-agile-team-img-head">
-                    <h3>serina willams</h3>
-                    <div class="team-social">
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 w3-agile-team-img1 w3-agile-team-img-5">
-                <div class="w3-agile-team-img-head">
-                    <h3>Usain bolt</h3>
-                    <div class="team-social">
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
+    <div>
+        <table id="doctor" class="table" >
+            <?php foreach ($list as $key => $item){ ?>
+                <td style="text-align: center;color: #0089db;font-size: 20px"><b><?=$key?></b></td>
+                <tr style="display: flex;flex-wrap: wrap;padding:0 15%;overflow: hidden">
+                    <?php foreach ($item as $value){?>
+                            <td style="text-align: center; width: 33%;display: flex">
+                                <div style="display: flex;justify-content: space-evenly;height: 100%;flex-direction: column">
+                                    <h4 style="color: #0d6aad;width: 110px">姓名：<?=$value['name']?></h4>
+                                    <h4 style="color: #0d6aad;width: 110px">职称：<?=$value['position']?></h4>
+                                    <h4 style="color: #0d6aad;width: 110px">学历：<?=$value['education']?></h4>
+                                    <h4 style="color: #0d6aad;width: 110px">毕业院校：<?=$value['graduate_school']?></h4>
+                                </div>
+                                <a href="<?=\yii\helpers\Url::to(['/contact/index','id'=>$value['id']])?>"><img style="height: 200px;" src=<?=Yii::$app->params['imgDomain'].$value['pic']?> alt="" class="img-rounded"></a>
+                            </td>
+                    <?php }?>
+                </tr>
+            <?php }?>
+        </table>
+    </div>
         <div class="clearfix"></div>
     </div>
 </div>
 <!--//team-->
 <!-- footer -->
-<div class="footer">
+<div class="footer" style="height: 100%">
     <div class="container">
         <div class="footer_agile_inner_info_w3l">
             <div class="col-md-4 footer-left">
-                <h2><a href="index.html">MediBulk </a></h2>
-                <p>Lorem ipsum quia dolor
-                    sit amet, consectetur, adipisci velit, sed quia non
-                    numquam eius modi tempora.</p>
+                <h2><a href="index.html">合作伙伴 </a></h2>
+                <p></p>
                 <ul class="social-nav model-3d-0 footer-social w3_agile_social two">
+                    <!--                    <li><a href="https://github.com" class="github">-->
+                    <!--                            <div class="front"><i class="fa fa-github" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-github" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="https://linux.cn/" class="linux">-->
+                    <!--                            <div class="front"><i class="fa fa-linux" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-linux" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="https://www.w3.org/html/" class="html5">-->
+                    <!--                            <div class="front"><i class="fa fa-html5" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-html5" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="www.google.com" class="google">-->
+                    <!--                            <div class="front"><i class="fa fa-google-plus" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-google-plus" aria-hidden="true"></i></div></a></li>-->
                     <li><a href="#" class="facebook">
                             <div class="front"><i class="fa fa-facebook" aria-hidden="true"></i></div>
                             <div class="back"><i class="fa fa-facebook" aria-hidden="true"></i></div></a></li>
@@ -207,28 +166,29 @@
             <div class="col-md-4 footer-right">
                 <div class="sign-grds">
                     <div class="sign-gd">
-                        <h4>Information </h4>
+                        <h4>信息 </h4>
                         <ul>
-                            <li><a href="index.html" class="active">Home</a></li>
-                            <li><a href="about.html" >About</a></li>
-                            <li><a href="services.html"> Services</a></li>
-                            <li><a href="gallery.html">Portfolio</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
+                            <li  class="active"><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">关于我们</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/services/index'])?>">我们的服务</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/gallery/index'])?>">画廊</a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['/contact/index'])?>">联系</a></li>
 
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 sign-gd-two">
-                <h4>Address</h4>
+                <h4>联系方式</h4>
+
                 <div class="w3-address">
                     <div class="w3-address-grid">
                         <div class="w3-address-left">
                             <i class="fa fa-phone" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>Phone Number</h6>
-                            <p>+1 234 567 8901</p>
+                            <h6>联系电话</h6>
+                            <p>028 2345678901</p>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
@@ -237,7 +197,7 @@
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>Email Address</h6>
+                            <h6>邮件地址</h6>
                             <p>Email :<a href="mailto:example@email.com"> mail@example.com</a></p>
                         </div>
                         <div class="clearfix"> </div>
@@ -247,8 +207,8 @@
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
                         </div>
                         <div class="w3-address-right">
-                            <h6>Location</h6>
-                            <p>Broome St, NY 10002,California, USA.
+                            <h6>地址</h6>
+                            <p>成都市都江堰市成都东软学院
 
                             </p>
                         </div>
@@ -261,10 +221,11 @@
 
             <div class="clearfix"></div>
 
-            <p class="copy-right">Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+            <p class="copy-right">Copyright &copy; 2019.ZhangPu All rights reserved.</p>
         </div>
     </div>
 </div>
+
 <!-- //footer -->
 
 
