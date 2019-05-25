@@ -1,7 +1,6 @@
 <?php
 namespace frontend\controllers;
 
-use common\models\ResetpwdForm;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -73,6 +72,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'myLayout';
         return $this->render('index');
     }
 
@@ -83,6 +83,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = 'myLayout';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -118,12 +119,13 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        $this->layout = 'myLayout';
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+                Yii::$app->session->setFlash('success', '感谢您与我们联系。我们会尽快给你答复。');
             } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+                Yii::$app->session->setFlash('error', '发送消息时出错。');
             }
 
             return $this->refresh();
@@ -141,6 +143,7 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        $this->layout = 'myLayout';
         return $this->render('about');
     }
 
@@ -151,6 +154,7 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
+        $this->layout = 'myLayout';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
@@ -172,14 +176,15 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
+        $this->layout = 'myLayout';
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+                Yii::$app->session->setFlash('success', '查看您的电子邮件以获得进一步的说明。');
 
                 return $this->goHome();
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+                Yii::$app->session->setFlash('error', '对不起，我们无法重置提供的电子邮件地址的密码。');
             }
         }
 
@@ -197,6 +202,7 @@ class SiteController extends Controller
      */
     public function actionResetPassword($token)
     {
+        $this->layout = 'myLayout';
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidParamException $e) {
@@ -204,43 +210,9 @@ class SiteController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password saved.');
+            Yii::$app->session->setFlash('success', '密码重置成功！');
 
             return $this->goHome();
-        }
-
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionResetpwd()
-    {
-        $model = new ResetpwdForm();
-
-        if ($model->load(Yii::$app->request->post())) {
-           $postData = Yii::$app->request->post();
-
-            $userinfo = (\common\models\User::findOne(['username' => $postData['ResetpwdForm']['username']]));
-
-            if (!$userinfo){
-                $model->addError('username','该用户不存在');
-                return $this->render('resetPassword', [
-                    'model' => $model,
-                ]);
-            }
-
-            if ($userinfo->type == 1){
-                $model->addError('username','该用户不存在');
-                return $this->render('resetPassword', [
-                    'model' => $model,
-                ]);
-            }
-
-            $id = $userinfo->id;
-            if($adminuser = $model->resetpassword($id)){
-                return $this->redirect(['login']);
-            }
         }
 
         return $this->render('resetPassword', [

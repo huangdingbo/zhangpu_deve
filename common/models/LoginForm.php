@@ -31,6 +31,15 @@ class LoginForm extends Model
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'username' => '用户名',
+            'password' => '密码',
+            'rememberMe' => '记住我',
+        ];
+    }
+
     /**
      * Validates the password.
      * This method serves as the inline validation for password.
@@ -55,17 +64,9 @@ class LoginForm extends Model
      */
     public function login()
     {
-        $baseUrl = Yii::$app->request->getBaseUrl();
-        $urlArr = explode('/',trim($baseUrl));
-        $platform = $urlArr[2];
+
 
         $userModel = $this->getUser();
-
-        if ($userModel){
-            if ($userModel->type == 2 && $platform == 'backend'){ //普通用户访问后台，拦截
-                return false;
-            }
-        }
 
         if ($this->validate()) {
             return Yii::$app->user->login($userModel, $this->rememberMe ? 3600 * 24 * 30 : 0);

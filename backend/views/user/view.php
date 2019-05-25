@@ -22,19 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'username',
             'email:email',
-            'status',
             [
                 'attribute' => 'status',
                 'label' => '账号状态',
                 'value' => function($model){
                     return $model->status == User::STATUS_ACTIVE ? '正常' : '停用';
-                },
-            ],
-            [
-                'attribute' => 'type',
-                'label' => '账号类型',
-                'value' => function($model){
-                    return $model->type == '1' ? '医师账号' : '用户账号';
                 },
             ],
             [

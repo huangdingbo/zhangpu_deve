@@ -15,7 +15,7 @@ use yii\filters\VerbFilter;
 class PatientController extends Controller
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function behaviors()
     {
@@ -35,6 +35,7 @@ class PatientController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'myLayout';
         $searchModel = new PatientSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -52,7 +53,7 @@ class PatientController extends Controller
      */
     public function actionView($id)
     {
-        return $this->renderAjax('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -62,17 +63,12 @@ class PatientController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id)
+    public function actionCreate()
     {
         $model = new Patient();
-        if (Yii::$app->user->id){
-            $model->user_id = (string)Yii::$app->user->id;
-            $model->update_at = date('Y-m-d H:i:s',time());
-            $model->create_at = date('Y-m-d H:i:s',time());
-        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['contact/index','id' => $id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [

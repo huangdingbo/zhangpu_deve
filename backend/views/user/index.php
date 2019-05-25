@@ -36,14 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
-                'attribute' => 'type',
-                'label' => '账户类型',
-                'value' => function($dataProvider){
-                    return $dataProvider->type == '1' ? '医师账号' : '用户账户';
-                },
-                'filter' => ['type' => '医师账号','2' => '用户账户'],
-            ],
-            [
                 'attribute' => 'created_at',
                 'format' => ['date', 'Y-m-d H:i:s'],
             ],

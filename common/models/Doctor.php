@@ -91,14 +91,13 @@ class Doctor extends \yii\db\ActiveRecord
         if ($this->CheckUserIsExit($nameForPinyin)){
             throw new ForbiddenHttpException('用户名重复，请稍后重试！！！');
         }
-        $userModel = new User();
+        $userModel = new Adminuser();
         $userModel->username = $nameForPinyin;
         $userModel->setPassword('123456');
         $userModel->generateAuthKey();
         $userModel->password = '*';
         $userModel->email = $nameForPinyin.'@qq.com';
         $userModel->status = User::STATUS_ACTIVE;
-        $userModel->type = '1';
         $userModel->created_at = time();
         $userModel->updated_at = time();
         $userModel->save();

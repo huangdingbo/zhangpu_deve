@@ -13,6 +13,8 @@ use Yii;
  * @property string $appointment_time 预约时间
  * @property string $submit_time 提交时间
  * @property string $line_num 排队号
+ * @property string $status 状态
+ * @property string time_day
  */
 class Appointments extends \yii\db\ActiveRecord
 {
@@ -32,9 +34,10 @@ class Appointments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id_normal', 'doctor_id', 'appointment_time', 'submit_time', 'line_num'], 'required'],
+             [['user_id_normal', 'doctor_id', 'appointment_time', 'submit_time', 'line_num', 'status'], 'required'],
             [['user_id_normal', 'doctor_id', 'appointment_time', 'submit_time', 'line_num'], 'string', 'max' => 50],
-            [['username,email'],'safe'],
+            [['status'], 'string', 'max' => 2],
+            [['username','email','time_day'],'safe'],
         ];
     }
 
@@ -52,6 +55,7 @@ class Appointments extends \yii\db\ActiveRecord
             'line_num' => '当前排队号',
             'username' => '用户名',
             'email' => '邮箱',
+
         ];
     }
 
@@ -65,6 +69,9 @@ class Appointments extends \yii\db\ActiveRecord
         //排队号
         $totalPerson = self::find()->where(['doctor_id' => $this->doctor_id])->count();
         $this->line_num = (string)($totalPerson + 1);
+        //状态
+        $this->status = '1';
+        $this->time_day = date('Y-m-d',strtotime($this->appointment_time));
     }
 
     public function getDoctor(){

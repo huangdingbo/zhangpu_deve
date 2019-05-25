@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\ResetpwdForm;
 use Yii;
 use common\models\Adminuser;
 use common\models\AdminuserSearch;
@@ -12,22 +13,10 @@ use yii\filters\VerbFilter;
 /**
  * AdminuserController implements the CRUD actions for Adminuser model.
  */
-class AdminuserController extends Controller
+class AdminuserController extends CommonController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+    protected $mustlogin = ['index','view','create','update','delete','reset-password'];
+
 
     /**
      * Lists all Adminuser models.
@@ -52,7 +41,7 @@ class AdminuserController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -66,8 +55,11 @@ class AdminuserController extends Controller
     {
         $model = new Adminuser();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->addData();
+            if ($model->save()){
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('create', [
@@ -87,10 +79,10 @@ class AdminuserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }
@@ -123,5 +115,21 @@ class AdminuserController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionResetPassword($id){
+        $model = new ResetpwdForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()){
+            if ($model->resetpassword($id)){
+                Yii::$app->session->setFlash('success','密码重置成功');
+                return $this->redirect(['index']);
+            }else{
+                Yii::$app->session->setFlash('danger','密码重置失败'.$model->getErrors());
+                return $this->redirect(['index']);
+            }
+        }
+
+        return $this->renderAjax('/user/reset-password',['model' => $model]);
     }
 }

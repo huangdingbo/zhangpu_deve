@@ -10,9 +10,8 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'zh-CN',
     'controllerNamespace' => 'frontend\controllers',
-
-    'defaultRoute' => 'index/index',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -48,4 +47,5 @@ return [
         */
     ],
     'params' => $params,
+
 ];

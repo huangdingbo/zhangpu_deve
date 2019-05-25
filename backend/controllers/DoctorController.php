@@ -14,22 +14,10 @@ use yii\filters\VerbFilter;
 /**
  * DoctorController implements the CRUD actions for Doctor model.
  */
-class DoctorController extends Controller
+class DoctorController extends CommonController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+    protected $mustlogin = ['index','view','create','update','delete'];
+
 
     /**
      * Lists all Doctor models.

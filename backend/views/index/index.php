@@ -7,7 +7,7 @@ $this->title = '总体概况';
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>150</h3>
+                <h3><?=((new \yii\db\Query())->from('num')->where(['id' => '1'])->select('total')->one())['total']?></h3>
 
                 <p>总访问量</p>
             </div>
@@ -22,7 +22,7 @@ $this->title = '总体概况';
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3><?=$todayApponitNum?></h3>
 
                 <p>今日预约人数</p>
             </div>
@@ -37,7 +37,7 @@ $this->title = '总体概况';
         <!-- small box -->
         <div class="small-box bg-yellow">
             <div class="inner">
-                <h3>44</h3>
+                <h3><?=$todaySeeDoctorNum?></h3>
 
                 <p>今日就诊数</p>
             </div>
@@ -52,7 +52,7 @@ $this->title = '总体概况';
         <!-- small box -->
         <div class="small-box bg-red">
             <div class="inner">
-                <h3>65</h3>
+                <h3><?=$historyNum?><sup style="font-size: 20px">%</sup></h3>
 
                 <p>历史就诊率</p>
             </div>
@@ -70,9 +70,6 @@ $this->title = '总体概况';
 </div>
 
 
-<?php
-$data = '[1,4,3,4,23,6,7]';
-?>
 <script type="text/javascript" src="./js/echarts.min.js"></script>
 <script type="text/javascript">
 
@@ -84,14 +81,14 @@ $data = '[1,4,3,4,23,6,7]';
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: <?=$keys?>
         },
         yAxis: {
             type: 'value'
         },
         series: [{
             name : 'T1探头',
-            data: <?=$data?>,
+            data: <?=$values?>,
             type: 'line',
             areaStyle: {
                 color:'#00A65A',

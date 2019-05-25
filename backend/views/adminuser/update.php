@@ -1,21 +1,32 @@
 <?php
 
+use common\models\User;
 use yii\helpers\Html;
+use yii\web\View;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Adminuser */
+/* @var $model common\models\User */
 
-$this->title = 'Update Adminuser: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Adminusers', 'url' => ['index']];
+$this->title = '修改账号: ' . $model->username;
+$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="adminuser-update">
+<div class="user-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="user-form">
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+        <?php $form = ActiveForm::begin(); ?>
+
+        <?= $form->field($model, 'status')->dropDownList([\common\models\User::STATUS_ACTIVE => '正常',\common\models\User::STATUS_DELETED => '停用']) ?>
+
+        <div class="form-group">
+            <?= Html::submitButton('保存', ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
+    </div>
 
 </div>

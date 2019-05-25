@@ -1,9 +1,11 @@
 <?php
 
 use common\models\Doctor;
-use kartik\date\DatePicker;
+
+use kartik\datetime\DateTimePicker;
 use kartik\select2\Select2;
 use yii\bootstrap\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 \frontend\assets\AppAsset::register($this)
 ?>
@@ -65,29 +67,35 @@ use yii\widgets\ActiveForm;
                     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                         <nav>
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="<?=\yii\helpers\Url::to(['/index/index'])?>">首页</a></li>
-                                <li><a href="<?=\yii\helpers\Url::to(['/about/index'])?>">预约服务</a></li>
-                                <li><a href="<?=\yii\helpers\Url::to(['/gallery/index'])?>">画廊</a></li>
+                                <li class="active"><a href="<?=\yii\helpers\Url::to(['index/index'])?>">首页</a></li>
+                                <li><a href="<?=Url::to(['doctor/index'])?>">预约服务</a></li>
+                                <li><a href="<?=Url::to(['gallery/index'])?>">画廊</a></li>
 
                                 <li>
                                     <?php if (Yii::$app->user->isGuest) { ?>
-                                        <a href="<?=\yii\helpers\Url::to(['/site/login'])?>">登录</a>
-                                   <?php } else { ?>
+                                        <a href="<?=Url::to(['site/login'])?>">登录</a>
+                                    <?php } else { ?>
 
                                         <?php echo
-                                        '<li style="color:#fff;font-weight:400;border:1.5px solid #3eb8d7">'
-                                        . \yii\helpers\Html::beginForm(['/site/logout'], 'post')
-                                        . Html::submitButton(
-                                            '注销 (' . Yii::$app->user->identity->username . ')',
-                                            ['id' => 'zhuxiao']
-                                        )
-                                        . Html::endForm()
-                                        . '</li>';
+                                            '<li style="color:#fff;font-weight:400;border:1.5px solid #3eb8d7">'
+                                            . \yii\helpers\Html::beginForm(['site/logout'], 'post')
+                                            . Html::submitButton(
+                                                '注销 (' . Yii::$app->user->identity->username . ')',
+                                                ['id' => 'zhuxiao']
+                                            )
+                                            . Html::endForm()
+                                            . '</li>';
                                         ?>
-                                   <?php } ?>
+                                    <?php } ?>
                                 </li>
+                                <?php if (Yii::$app->user->id){?>
+                                    <li style="display: none"><a href="<?=Url::to(['site/signup'])?>">注册</a></li>
+                                <?php }else{?>
+                                    <li><a href="<?=Url::to(['site/signup'])?>">注册</a></li>
+                                <?php }?>
+                                <li><a href="<?=Url::to(['appointment/index','id'=>Yii::$app->user->id])?>">我的预约</a></li>
 
-                                <li><a href="<?=\yii\helpers\Url::to(['/appointments/index'])?>">我的预约</a></li>
+                                <li><a href="<?=Url::to(['me/index'])?>">我的信息</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -181,44 +189,7 @@ use yii\widgets\ActiveForm;
             <span class="sr-only">next</span>
         </a>
     </div>
-    <div class="agileits_reservation">
-        <?php $form = ActiveForm::begin(); ?>
-            <div class="cuisine">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                <input type="text" placeholder="您的姓名" required="">
-            </div>
-        <br>
-
-        <div class="cuisine">
-<!--            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>-->
-            <?=$form->field($model, 'doctor_id')->widget(Select2::classname(), [
-                'data' => Doctor::find()->select('name,id')->indexBy('id')->column(),
-                'options' => ['placeholder' => '请选择预约医生'],
-            ])->label(false);?>
-        </div>
-<!--            <div class="phone_email1">-->
-<!--                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>-->
-<!--                <input type="email" name="Email" placeholder="Email" required="">-->
-<!--            </div>-->
-        <?= $form->field($model, 'appointment_time')->widget(DatePicker::classname(), [
-            'options' => ['placeholder' => ''],
-            'pluginOptions' => [
-                'autoclose' => true,
-                'todayHighlight' => true,
-                'format' => 'yyyy-mm-dd ',
-                'startDate' =>date('Y-m-d'), //设置今天之前的日期不能选择
-            ]
-        ])->label(false); ?>
-
-            <div class="clearfix"> </div>
-
-                <div class="date_btn">
-                    <?= Html::submitButton('提交预约', ['class' => 'btn btn-primary btn-lg btn-block']) ?>
-                </div>
-            </div>
-
-        <?php ActiveForm::end(); ?>
-    </div>
+</div>
 </div>
 <!-- //slider -->
 <!-- // banner -->
@@ -229,46 +200,31 @@ use yii\widgets\ActiveForm;
         <div class="w3-heading-all">
             <h3>关于我们</h3>
         </div>
+
         <div class="w3-about-grids">
             <div class="col-md-6 w3-about-left-grid">
                 <div class=" w3-about-left-grid-inner-head">
-                    <i class="fa fa-microphone" aria-hidden="true"></i>
-                    <h3>让我们谈谈好客</h3>
+                    <video src="<?=$videos['src']?>"  width="540" height="280" controls="controls">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
                 <div class=" w3-about-left-grid-inner2-head">
-                    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec gravida, ante egestas egestas vulputate, elit risus maximus mauris, non gravida arcu justo eget est. Cras eu mauris nisl. Maecenas ut scelerisque metus.</h3>
+                    <h3><?=$videos['content1']?></h3>
                 </div>
                 <div class="clearfix"></div>
             </div>
             <div class="col-md-6 w3-about-right-grid">
-                <div class="col-md-8 w3-about-right-text1">
-                    <h5>Lorem ipsum 109</h5>
-                    <h4>专家</h4>
-                    <h3>Ut sed augue porttitor, vehicula eros in, vehicula elit. Aliquam ut ex aliquam risus vestibulum hendrerit.</h3>
-
-                </div>
-                <div class="col-md-4 w3-about-right-img1">
-                    <img src="images/a11.jpg" alt="img" />
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-8 w3-about-right-text1">
-                    <h5>Dunke alpha 212</h5>
-                    <h4>专家</h4>
-                    <h3>Ut sed augue porttitor, vehicula eros in, vehicula elit. Aliquam ut ex aliquam risus vestibulum hendrerit.</h3>
-                </div>
-                <div class="col-md-4 w3-about-right-img1">
-                    <img src="images/a121.jpg" alt="img" />
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-md-8 w3-about-right-text1">
-                    <h5>Monst ibram 143</h5>
-                    <h4>Specialist3</h4>
-                    <h3>Ut sed augue porttitor, vehicula eros in, vehicula elit. Aliquam ut ex aliquam risus vestibulum hendrerit.</h3>
-                </div>
-                <div class="col-md-4 w3-about-right-img1">
-                    <img src="images/a13.jpg" alt="img" />
-                </div>
-                <div class="clearfix"></div>
+                <?php foreach ($doctors as $doctor){?>
+                    <div class="col-md-8 w3-about-right-text1">
+                        <h5 style="color: black">姓名：<?=$doctor['name']?></h5>
+                        <h5 style="color: black">职务：<?=$doctor['position']?></h5>
+                        <h5 style="color: black">简介：<?=$doctor['introduction']?></h5>
+                    </div>
+                    <div class="col-md-4 w3-about-right-img1">
+                        <img style="width: 200px;height: 200px" src="<?=Yii::$app->params['domain'].$doctor['pic']?>" alt="img" />
+                    </div>
+                    <div class="clearfix"></div>
+               <?php }?>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -392,38 +348,19 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="w3ls_testimonials_grids">
             <section class="center slider">
-                <div class="agileits_testimonial_grid">
-                    <div class="w3l_testimonial_grid">
-                        <p></p>
-                        <h4>Rosy Crisp</h4>
-                        <h5>Student</h5>
-                        <div class="w3l_testimonial_grid_pos">
-                            <img src="images/tm1.jpg" alt=" " class="img-responsive" />
+                <?php foreach ($jiang as $item){?>
+                        <div class="agileits_testimonial_grid">
+                            <div class="w3l_testimonial_grid">
+                                <p></p>
+                                <h4><?=$item['content1']?></h4>
+                                <h5><?=$item['content1']?></h5>
+                                <div class="w3l_testimonial_grid_pos">
+                                    <h2><?=$item['content1']?></h2>
+                                    <img src="<?=$item['src']?>" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="agileits_testimonial_grid">
-                    <div class="w3l_testimonial_grid">
-                        <p>In eu auctor felis, id eleifend dolor. Integer bibendum dictum erat,
-                            non laoreet dolor.</p>
-                        <h4>Laura Paul</h4>
-                        <h5>Student</h5>
-                        <div class="w3l_testimonial_grid_pos">
-                            <img src="images/tm2.jpg" alt=" " class="img-responsive" />
-                        </div>
-                    </div>
-                </div>
-                <div class="agileits_testimonial_grid">
-                    <div class="w3l_testimonial_grid">
-                        <p>In eu auctor felis, id eleifend dolor. Integer bibendum dictum erat,
-                            non laoreet dolor.</p>
-                        <h4>Michael Doe</h4>
-                        <h5>Student</h5>
-                        <div class="w3l_testimonial_grid_pos">
-                            <img src="images/tm3.jpg" alt=" " class="img-responsive" />
-                        </div>
-                    </div>
-                </div>
+                <?php }?>
             </section>
         </div>
     </div>
@@ -437,18 +374,18 @@ use yii\widgets\ActiveForm;
                 <h2><a href="index.html">合作伙伴 </a></h2>
                 <p></p>
                 <ul class="social-nav model-3d-0 footer-social w3_agile_social two">
-<!--                    <li><a href="https://github.com" class="github">-->
-<!--                            <div class="front"><i class="fa fa-github" aria-hidden="true"></i></div>-->
-<!--                            <div class="back"><i class="fa fa-github" aria-hidden="true"></i></div></a></li>-->
-<!--                    <li><a href="https://linux.cn/" class="linux">-->
-<!--                            <div class="front"><i class="fa fa-linux" aria-hidden="true"></i></div>-->
-<!--                            <div class="back"><i class="fa fa-linux" aria-hidden="true"></i></div></a></li>-->
-<!--                    <li><a href="https://www.w3.org/html/" class="html5">-->
-<!--                            <div class="front"><i class="fa fa-html5" aria-hidden="true"></i></div>-->
-<!--                            <div class="back"><i class="fa fa-html5" aria-hidden="true"></i></div></a></li>-->
-<!--                    <li><a href="www.google.com" class="google">-->
-<!--                            <div class="front"><i class="fa fa-google-plus" aria-hidden="true"></i></div>-->
-<!--                            <div class="back"><i class="fa fa-google-plus" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="https://github.com" class="github">-->
+                    <!--                            <div class="front"><i class="fa fa-github" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-github" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="https://linux.cn/" class="linux">-->
+                    <!--                            <div class="front"><i class="fa fa-linux" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-linux" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="https://www.w3.org/html/" class="html5">-->
+                    <!--                            <div class="front"><i class="fa fa-html5" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-html5" aria-hidden="true"></i></div></a></li>-->
+                    <!--                    <li><a href="www.google.com" class="google">-->
+                    <!--                            <div class="front"><i class="fa fa-google-plus" aria-hidden="true"></i></div>-->
+                    <!--                            <div class="back"><i class="fa fa-google-plus" aria-hidden="true"></i></div></a></li>-->
                     <li><a href="#" class="facebook">
                             <div class="front"><i class="fa fa-facebook" aria-hidden="true"></i></div>
                             <div class="back"><i class="fa fa-facebook" aria-hidden="true"></i></div></a></li>

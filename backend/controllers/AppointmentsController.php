@@ -14,22 +14,10 @@ use yii\filters\VerbFilter;
 /**
  * AppointmentsController implements the CRUD actions for Appointments model.
  */
-class AppointmentsController extends Controller
+class AppointmentsController extends CommonController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+    protected $mustlogin = ['index','view','patient','doctor'];
+
 
     /**
      * Lists all Appointments models.
@@ -68,7 +56,8 @@ class AppointmentsController extends Controller
     public function actionPatient($id){
         $appointModel = $this->findModel($id);
         $patientId = $appointModel->user_id_normal;
-        $model = Patient::findOne(['id' => $patientId]);
+
+        $model = Patient::findOne(['user_id' => $patientId]);
 
         return $this->renderAjax('patient',['model' => $model]);
     }
