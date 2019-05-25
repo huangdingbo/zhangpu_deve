@@ -2,7 +2,6 @@
 
 use kartik\datetime\DateTimePicker;
 use yii\bootstrap\ActiveForm;
-use kartik\date\DatePicker;
 use yii\bootstrap\Html;
 ?>
 
@@ -41,12 +40,12 @@ use yii\bootstrap\Html;
                 ?>
                 <?php $form = ActiveForm::begin()?>
                 <?=$form->field($appointmentsModel,'doctor_id')->dropDownList($list)->label('医生姓名')?>
+
                 <?= $form->field($appointmentsModel, 'appointment_time')->widget(DateTimePicker::classname(), [
-                    'options' => ['placeholder' => ''],
+                    'options' => ['placeholder' => '请选择任务开始时间'],
                     'pluginOptions' => [
-                        'autoclose' => true,
-                        'todayHighlight' => true,
-                        'format' => 'yyyy-mm-dd HH:ii:ss'
+                        'format' => 'yyyy-mm-dd hh:ii:00',
+                        'todayHighlight' => true
                     ]
                 ]); ?>
                 <div class="clearfix"> </div>

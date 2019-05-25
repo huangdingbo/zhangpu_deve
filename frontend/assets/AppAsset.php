@@ -19,7 +19,8 @@ class AppAsset extends AssetBundle
 
     ];
     public $js = [
-        'js/jquery-2.1.4.min.js',
+        'js/query.min.js',
+//        'js/jquery-2.1.4.min.js',
         'js/jquery.tools.min.js',
         'js/jquery.mobile.custom.min.js',
         'js/jquery.cm-overlay.js',
